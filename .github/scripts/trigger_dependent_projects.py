@@ -2,7 +2,7 @@ import os
 from github import Github
 
 def main():
-    gh_token = os.environ['GITHUB_TOKEN']
+    gh_token = os.environ['ACCESS_TOKEN']
     github = Github(gh_token)
 
     search_query = 'topic:autoversioning-dependent'
