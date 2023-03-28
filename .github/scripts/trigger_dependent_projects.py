@@ -10,7 +10,7 @@ def main():
 
     for repo in repositories:
         print(f'Triggering update for {repo.full_name}')
-        repo.create_dispatch('update-versioning-scripts')
+        repo.dispatch_event('update-versioning-scripts')
 
 if __name__ == "__main__":
     main()
