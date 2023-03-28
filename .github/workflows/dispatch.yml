@@ -1,0 +1,21 @@
+name: Dispatch Update
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger-update:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Dispatch update event
+      run: |
+        curl -X POST \
+             -H "Accept: application/vnd.github.everest-preview+json" \
+             -H "Authorization: token ${{ secrets.DISPATCH_TOKEN }}" \
+             https://api.github.com/repos/OMGerEDU/autoVersioningScripts/dispatches \
+             -d '{"event_type": "update-versioning-scripts"}'
+      env:
+        DISPATCH_TOKEN: ${{ secrets.DISPATCH_TOKEN }}
