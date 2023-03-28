@@ -8,12 +8,22 @@ on:
 jobs:
   trigger:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Trigger autoPublisher project
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
         run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github.everest-preview+json" \
-            -H "Authorization: token ${{ secrets.ACCESS_TOKEN }}" \
-            https://api.github.com/repos/OMGerEDU/Youtube-Publisher/dispatches \
-            -d '{"event_type": "update-versioning-scripts"}'
+          python -m pip install --upgrade pip
+          pip install PyGithub
+
+      - name: Trigger Dependent Projects
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        run: |
+          python ./.github/scripts/trigger_dependent_projects.py
